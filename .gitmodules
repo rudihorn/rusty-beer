@@ -4,3 +4,6 @@
 [submodule "lib/light-cli"]
 	path = lib/light-cli
 	url = git@github.com:rudihorn/light-cli.git
+[submodule "lib/stm32f103xx-hal"]
+	path = lib/stm32f103xx-hal
+	url = git@github.com:rudihorn/stm32f103xx-hal.git
