@@ -1,4 +1,6 @@
+extern crate light_cli;
 extern crate pid;
-fn main() {
 
+fn main() {
+    println!("It works!")
 }
