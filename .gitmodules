@@ -1,0 +1,3 @@
+[submodule "lib/max31865"]
+	path = lib/max31865
+	url = git@github.com:rudihorn/max31865.git
