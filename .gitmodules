@@ -7,6 +7,3 @@
 [submodule "lib/stm32f103xx-hal"]
 	path = lib/stm32f103xx-hal
 	url = git@github.com:rudihorn/stm32f103xx-hal.git
-[submodule "lib/test-response"]
-	path = lib/test-response
-	url = git@github.com:rudihorn/other-brewing.git

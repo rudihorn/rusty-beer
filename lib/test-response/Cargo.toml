@@ -1,0 +1,12 @@
+[package]
+name = "test-response"
+version = "0.1.0"
+authors = ["Rudi Horn <dyn-git@rudi-horn.de>"]
+
+[dependencies]
+cortex-m = "0.5.1"
+cortex-m-rt = "0.5.0"
+panic-abort = "0.1.1"
+max31865 = { git = "https://github.com/rudihorn/max31865", branch = "extra_examples" }
+stm32f103xx-hal = { git = "https://github.com/japaric/stm32f103xx-hal" }
+light-cli = { git = "https://github.com/rudihorn/light-cli" }
