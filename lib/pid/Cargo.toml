@@ -1,0 +1,4 @@
+[package]
+name = "pid"
+version = "0.1.0"
+authors = ["Federico Pizzuti <pizzutifederico27@gmail.com>"]
