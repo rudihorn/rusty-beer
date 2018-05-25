@@ -1,3 +1,6 @@
 [submodule "lib/max31865"]
 	path = lib/max31865
 	url = git@github.com:rudihorn/max31865.git
+[submodule "lib/light-cli"]
+	path = lib/light-cli
+	url = git@github.com:rudihorn/light-cli.git
