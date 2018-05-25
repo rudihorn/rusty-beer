@@ -1,7 +1,19 @@
 [package]
 name = "rusty-beer"
 version = "0.1.0"
-authors = ["Wen Kokke" <wen.kokke@gmail.com>, "Federico Pizzuti <pizzutifederico27@gmail.com>"]
+authors = ["Wen Kokke <wen.kokke@gmail.com>", "Federico Pizzuti <pizzutifederico27@gmail.com>"]
 
-[dependencies]
-pid = { path = "lib/pid"}
+[dependencies.light-cli]
+path = "lib/pid"
+
+[dependencies.pid]
+path = "lib/pid"
+
+[dependencies.max31865]
+path = "lib/max31865"
+
+[dependencies.stm32f103xx-hal]
+path = "lib/stm32f103xx-hal"
+
+[dependencies.test-response]
+path = "lib/test-response"
