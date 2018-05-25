@@ -128,6 +128,9 @@ pub struct PIDController {
 }
 
 impl PIDController {
+
+    pub const DIVIDER:i32 = 100;
+
     /// Creates a new PID Controller.
     pub fn new(p_gain: i32, i_gain: i32, d_gain: i32) -> PIDController {
         PIDController{
@@ -170,7 +173,8 @@ impl Controller for PIDController {
         self.target
     }
 
-    fn update(&mut self, value: i32, delta_t: i32) -> i32 {
+    fn update(&mut self, raw_value: i32, delta_t: i32) -> i32 {
+        let value = raw_value * PIDController::DIVIDER;
         let error = self.target - value;
 
         // PROPORTIONAL
@@ -204,10 +208,11 @@ impl Controller for PIDController {
         self.prev_value = Option::Some(value);
         self.prev_error = Option::Some(error);
 
-        limit_range(
-            self.out_min, self.out_max,
+        let result = limit_range(
+            self.out_min*PIDController::DIVIDER, self.out_max*PIDController::DIVIDER,
             p_term + d_term + i_term
-        )
+        );
+        result/PIDController::DIVIDER
     }
 
     fn reset(&mut self) {
