@@ -8,12 +8,3 @@ path = "lib/light-cli"
 
 [dependencies.pid]
 path = "lib/pid"
-
-[dependencies.max31865]
-path = "lib/max31865"
-
-[dependencies.stm32f103xx-hal]
-path = "lib/stm32f103xx-hal"
-
-[dependencies.test-response]
-path = "lib/test-response"
