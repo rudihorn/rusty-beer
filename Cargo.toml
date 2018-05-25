@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["Wen Kokke <wen.kokke@gmail.com>", "Federico Pizzuti <pizzutifederico27@gmail.com>"]
 
 [dependencies.light-cli]
-path = "lib/pid"
+path = "lib/light-cli"
 
 [dependencies.pid]
 path = "lib/pid"
