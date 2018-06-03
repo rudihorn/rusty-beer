@@ -17,7 +17,9 @@
 // FIXME: it may be worth to explore http://de.mathworks.com/help/simulink/slref/pidcontroller.html
 //        for additional features/inspiration
 
-extern crate core;
+
+#![no_std]
+//extern crate core;
 
 use core::i32;
 use core::option::Option;
@@ -109,6 +111,8 @@ pub struct PIDController {
     /// Differential gain,
     pub d_gain: i32,
 
+    pub divider: i32,
+
     target: i32,
 
     // Integral range limits
@@ -129,14 +133,14 @@ pub struct PIDController {
 
 impl PIDController {
 
-    pub const DIVIDER:i32 = 100;
-
     /// Creates a new PID Controller.
-    pub fn new(p_gain: i32, i_gain: i32, d_gain: i32) -> PIDController {
+    pub fn new(p_gain: i32, i_gain: i32, d_gain: i32, divider: i32) -> PIDController {
         PIDController{
             p_gain: p_gain,
             i_gain: i_gain,
             d_gain: d_gain,
+
+            divider: divider,
 
             target: 0,
 
@@ -174,7 +178,7 @@ impl Controller for PIDController {
     }
 
     fn update(&mut self, raw_value: i32, delta_t: i32) -> i32 {
-        let value = raw_value * PIDController::DIVIDER;
+        let value = raw_value;
         let error = self.target - value;
 
         // PROPORTIONAL
@@ -182,37 +186,40 @@ impl Controller for PIDController {
 
         // INTEGRAL
         self.err_sum = limit_range(
-            self.i_min, self.i_max,
-            self.err_sum + self.i_gain * error * delta_t
+            -self.divider * 1000, self.divider * 1000,
+            self.err_sum + self.i_gain * error * delta_t 
         );
-        let i_term = self.err_sum;
+        let i_term = self.err_sum / 1000;
 
         // DIFFERENTIAL
         let d_term = if self.prev_value.is_none() || self.prev_error.is_none() {
             // we have no previous values, so skip the derivative calculation
             0
         } else {
-            match self.d_mode {
+            let difference = match self.d_mode {
                 DerivativeMode::OnMeasurement => {
                     // we use -delta_v instead of delta_error to reduce "derivative kick",
                     // see http://brettbeauregard.com/blog/2011/04/improving-the-beginner%E2%80%99s-pid-derivative-kick/
-                    self.d_gain * (self.prev_value.unwrap() - value) / delta_t
+                    self.prev_value.unwrap() - value
                 },
                 DerivativeMode::OnError => {
-                    self.d_gain * (error - self.prev_error.unwrap()) / delta_t
+                    error - self.prev_error.unwrap()
                 }
-            }
+            };
+            (self.d_gain * difference) / delta_t
         };
+
+        //println!("{}: p{} i{} d{}", value, p_term, i_term, d_term);
 
         // store previous values
         self.prev_value = Option::Some(value);
         self.prev_error = Option::Some(error);
 
         let result = limit_range(
-            self.out_min*PIDController::DIVIDER, self.out_max*PIDController::DIVIDER,
-            p_term + d_term + i_term
+            self.out_min, self.out_max,
+            (p_term + d_term + i_term) * self.out_max / self.divider
         );
-        result/PIDController::DIVIDER
+        result
     }
 
     fn reset(&mut self) {

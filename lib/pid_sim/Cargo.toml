@@ -4,3 +4,4 @@ version = "0.1.0"
 authors = ["Rudi Horn <dyn-git@rudi-horn.de>"]
 
 [dependencies]
+pid = { path = "../pid" }
